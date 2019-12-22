@@ -1,0 +1,3 @@
+Section 15 - Flash Chat - Flutter x Firebase Cloud Firestore
+
+This is an empty unchanged stump!
