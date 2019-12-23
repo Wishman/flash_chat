@@ -1,3 +1,17 @@
 Section 15 - Flash Chat - Flutter x Firebase Cloud Firestore
 
-This is an empty unchanged stump!
+1. L-158 & 160: add routes
+1.1 create static id prop in each Screen
+1.2 create route with key: ScreenName.id (no ScreenName() due to static id var!)
+1.3 add Navigator.push() to welcome screen login & registration button (V1)
+    or use .pushNamed() (V2)
+
+2. L-161: Flutter Hero Animations
+Task: create a transition animation between welcome_screen and registration_screen with lightning logo
+2.1 in welcome_screen wrap Container with logo.png in Hero Widget with tag: 'logo'
+2.2 in registration_screen, wrap Container in Hero Widget with tag 'logo'
+-- enough for a basic animation, as position & size are different on second screen
+2.3 same for login_screen
+
+
+
