@@ -10,11 +10,64 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+  // 3.1 (a)
+
+  AnimationController controller; // 3.1(b)
+  Animation animation; // 3.4(a)
+
+  // 3.1(c)
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      vsync: this, // reference to SingleTickerProviderStateMixin in this class
+      duration: Duration(seconds: 1),
+      //upperBound: 100, // 3.2(a)
+      upperBound: 1, // 3.4(c) -> if value is 1, no need to state as default!
+    );
+
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate); // 3.4(b) & 3.8(a)
+
+    controller.forward(); // 3.1(d) & 3.6(d)
+    //controller.reverse(from: 1.0); // 3.5(b) either forward or backward! & 3.6(d)
+
+    /* 3.8(a)
+    // 3.6 a,b,c loop animation
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse(from: 1.0);
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+    });
+    */
+
+    // animation = ColorTween(begin: Colors.red, end: Colors.blue).animate(controller); // 3.8(b)
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white).animate(controller); // 3.9
+    // 3.1(e)
+    controller.addListener(() {
+      setState(() {
+        // 3.1(g)
+      });
+      print(animation.value);
+    });
+  }
+
+  // 3.7 dispose animation controller to free resources when screen is dismissed
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.red.withOpacity(controller.value), // 3.1 (f)
+      //backgroundColor: Colors.white, // 3.2(b)
+      backgroundColor: animation.value, // 3.8(d)
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -28,11 +81,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    //height: controller.value, // 3.3(b)
+                    //height: animation.value * 100, //3.4(d),
+                    height: 60.0, // 3.8(c)
                   ),
                 ),
                 Text(
-                  'Flash Chat',
+                  //'${controller.value.toInt()}%', // 3.2(c)
+                  'Flash Chat', // 3.3(a)
                   style: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,

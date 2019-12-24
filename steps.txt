@@ -13,5 +13,43 @@ Task: create a transition animation between welcome_screen and registration_scre
 -- enough for a basic animation, as position & size are different on second screen
 2.3 same for login_screen
 
+3. L-162: Custom Flutter Animations with the Animation Controller
+3.1 in welcome_screen build Animation Controller:
+    3.1 (a) add 'with SingleTickerProviderStateMixin' to class _WelcomeScreenState
+    3.1 (b) create AnimationController var (NOT Animated Controller!)
+    3.1 (c) add initState() and init AnimationController
+    3.1 (d) add controller.forward() to initState to start animation
+    3.1 (e) add controller.addListener to initState to be able to know whats going on in animation
+    3.1 (f) change bgColor in Scaffold to red with an opacity that accepts controller.value
+    3.1 (g) add empty setState in controller.addListener to get opacity animation
+3.2 change Text in Animation to provide % progress:
+    3.2(a) add upperBound: 100 to AnimationController
+    3.2(b) comment out 3.1(f) and change bgColor back to white
+    3.2(c) change 'FlashChat' Text to $controller.value.toInt()%
+3.3 animate logo (and subsequently text) itself:
+    3.3(a) change text back to Flash Chat
+    3.3(b) replace size in logo with controller.value to animate logo
+3.4 use deceleration curve
+     3.4(a) create variable Animation animation;
+     3.4(b) in initState() init animation to a CurvedAnimation (parent: an Animation controller, curve:what kind of curve
+     3.4(c) set  upperBound = 1 (max possible value for curved animation!)
+     3.4(d) replace controller.value with animation.value in height prop of image.asset and multiply by 100 to see reasonable values
+3.5 use controller.reverse to go e.g. from large to small
+    3.5(a) comment out controller.forward
+    3.5(b) add controller.reverse(from: startingPoint )
+3.6 use animation.addStatusListener for looping animations
+    3.6(a) add addStatusListener
+    3.6(b) if status is AnimationStatus.completed -> forward is finished, start reverse
+    3.6(c) if status is AnimationStatus.dismissed -> reverse is finished, start forward
+    3.6(d) outside addStatusListener, comment out reverse and uncomment forward for initial start
 
+3.7 add dispose method and dispose of controller to free resources when screen is dismissed
+
+3.8 add TWEEN animation
+    3.8(a) comment out addStatusListener and curved animation
+    3.8(b) assign animation var to ColorTween Animation: needs .animate be cast to animation var!
+    3.8(c) change height prop in image.asset back to 60
+    3.8(d) change bgcolor to animation.value to assign animation
+
+3.9 final: keep the ColorTween - begin: blueGrey, end: white
 
