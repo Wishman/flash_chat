@@ -1,6 +1,7 @@
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart'; // 4.1
 
 class WelcomeScreen extends StatefulWidget {
   // 1.1
@@ -86,10 +87,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     height: 60.0, // 3.8(c)
                   ),
                 ),
-                Text(
+                // 4.2
+                TypewriterAnimatedTextKit(
                   //'${controller.value.toInt()}%', // 3.2(c)
-                  'Flash Chat', // 3.3(a)
-                  style: TextStyle(
+                  text: ['Flash Chat'], // 3.3(a) & 4.3
+                  isRepeatingAnimation: false, // 4.5 if you want to stop after first
+                  textStyle: TextStyle(
+                    // 4.4
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                   ),

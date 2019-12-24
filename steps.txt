@@ -42,14 +42,18 @@ Task: create a transition animation between welcome_screen and registration_scre
     3.6(b) if status is AnimationStatus.completed -> forward is finished, start reverse
     3.6(c) if status is AnimationStatus.dismissed -> reverse is finished, start forward
     3.6(d) outside addStatusListener, comment out reverse and uncomment forward for initial start
-
 3.7 add dispose method and dispose of controller to free resources when screen is dismissed
-
 3.8 add TWEEN animation
     3.8(a) comment out addStatusListener and curved animation
     3.8(b) assign animation var to ColorTween Animation: needs .animate be cast to animation var!
     3.8(c) change height prop in image.asset back to 60
     3.8(d) change bgcolor to animation.value to assign animation
-
 3.9 final: keep the ColorTween - begin: blueGrey, end: white
+
+4. L-164: Prepackaged Flutter Animations (animations as flutter packages)
+4.1 import animated_text_kit
+4.2 change Text() widget of FlashCard title to become a TypewriterAnimatedTextKit
+4.3 add text: as prop and put FlashCard in List Brackets
+4.4 change style prop to textStyle prop
+4.5 optional: set isRepeatingAnimation: false, to avoid repeating animations
 
