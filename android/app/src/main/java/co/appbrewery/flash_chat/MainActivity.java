@@ -1,4 +1,4 @@
-package co.appbrewery.flash_chat;
+package at.manticore.flash_chat;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

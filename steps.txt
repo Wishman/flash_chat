@@ -69,9 +69,18 @@ Task: create a transition animation between welcome_screen and registration_scre
 5.9 refactor registration screen with rounded button
 5.10 move Inputdecoration for Textfields for entering email and pwd from  registration & login  to constants
     5.10 (a) move first one to constant kTextfieldDecoration
-    5.10 (b) use kTextFielddecoration in registation screen instead of cut out decoration
+    5.10 (b) use kTextFielddecoration in registration screen instead of cut out decoration
     5.10 (c) replace second textfield Decoration with const and copyWith hintext different
 5.11 delete dark theme in main.dart
 5.12 add textColor white in roundedbutton
+
+6. L-168 & L-169: create Firebase Project on firebase.google.com and configure for Android & iOS
+see OneNote
+
+7. L-170: Firebase Flutter Packages Setup (iOS & Android)
+7.1 add firebase_core, firebase_auth and cloud_firestore packages to pubspec
+7.2 in terminal do a pod repo update for cocoa-pods with 'pod repo update' and 'sudo gem install cocoapods' to install
+
+
 
 
