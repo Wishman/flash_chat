@@ -2,6 +2,7 @@ import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart'; // 4.1
+import 'package:flash_chat/components/rounded_button.dart'; // 5.6
 
 class WelcomeScreen extends StatefulWidget {
   // 1.1
@@ -52,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       setState(() {
         // 3.1(g)
       });
-      print(animation.value);
+      //print(animation.value);
     });
   }
 
@@ -103,46 +104,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //1.3 Go to login screen.
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())); // V1
-                    Navigator.pushNamed(context, LoginScreen.id); // V2 with pushNamed and static ids!
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //1.3 Go to registration screen.
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationScreen()));  // V1
-                    Navigator.pushNamed(context, RegistrationScreen.id); // V2 with pushNamed and static id
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
-            ),
+            new RoundedButton(
+              title: 'Log In',
+              colour: Colors.lightBlueAccent,
+              onTapped: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+            ), // 5.5
+            new RoundedButton(
+                colour: Colors.blueAccent,
+                title: 'Register',
+                onTapped: () {
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                }), // 5.7
           ],
         ),
       ),
