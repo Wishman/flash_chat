@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart'; // 9.1
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,6 +13,35 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // 9.2
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+
+  // Fleißaufgabe - AlertDialog bei LoginError!
+  void _showDialog(String errCode) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("ERROR!"),
+          content: new Text(errCode),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardType: TextInputType.emailAddress, // 8.5(d)
                 textAlign: TextAlign.center, // 8.5(d)
                 onChanged: (value) {
-                  //Do something with the user input.
+                  email = value; // 9.3
                 },
                 decoration: kTextFieldDecoration),
             SizedBox(
@@ -46,14 +77,28 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true, // 8.5(d) obscure password
               textAlign: TextAlign.center, // 8.5(d)
               onChanged: (value) {
-                //Do something with the user input.
+                password = value; // 9.3
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
             ),
             SizedBox(
               height: 24.0,
             ),
-            RoundedButton(colour: Colors.lightBlueAccent, title: 'Log In', onTapped: null), //5.8
+            RoundedButton(
+                colour: Colors.lightBlueAccent,
+                title: 'Log In',
+                onTapped: () async {
+                  // 9.4
+                  try {
+                    final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+                    if (user != null) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
+                  } catch (e) {
+                    print('It\s an $e!');
+                    _showDialog(e.code); // call AlertDialog with error message
+                  }
+                }), //5.8
           ],
         ),
       ),

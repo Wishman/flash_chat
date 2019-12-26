@@ -104,6 +104,14 @@ see OneNote
     8.7(f) wrap inside try/catch
     8.7(g) in initState() trigger getCurrentUser method to ensure registered user
 
-
+9. L-172 - Authenticating Users with FirebaseAuth (Handling Login Events)
+Login:
+9.1 import firebase_auth
+9.2 add props for _auth (firebaseAuth.instance), email, pwd
+9.3 assign email and password to value in onChanged of TextFields (email / pwd)
+9.4 onTapped()  try to call _auth.signInWithEmailAnd Password and handle errors
+Logout:
+9.5 in IconButton for X, onPressed() -> use _auth.signOut()
+9.6 use Navigator.pop() to go back to previous screen
 
 
