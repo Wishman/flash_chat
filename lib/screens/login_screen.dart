@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48.0,
             ),
             TextField(
+                keyboardType: TextInputType.emailAddress, // 8.5(d)
+                textAlign: TextAlign.center, // 8.5(d)
                 onChanged: (value) {
                   //Do something with the user input.
                 },
@@ -41,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 8.0,
             ),
             TextField(
+              obscureText: true, // 8.5(d) obscure password
+              textAlign: TextAlign.center, // 8.5(d)
               onChanged: (value) {
                 //Do something with the user input.
               },

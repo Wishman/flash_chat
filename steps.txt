@@ -81,6 +81,29 @@ see OneNote
 7.1 add firebase_core, firebase_auth and cloud_firestore packages to pubspec
 7.2 in terminal do a pod repo update for cocoa-pods with 'pod repo update' and 'sudo gem install cocoapods' to install
 
+8. L-171: Registering Users with Firebase using FirebaseAuth
+8.1 in registration_screen create props: email & pwd (both String)
+8.2 assign typed jnfo in Textfield one to email
+8.3 same for password, but with password
+8.4 test by adding print statement to onTapped of Register Button
+8.5 spiff up Textfields
+    8.5(a) in registration_screen center align text (textalign prop)
+    8.5(b) hide password
+    8.5(c) change KeyBoardType for entering email to TextInputType.emailAddress
+    8.5(d) copy keyBoard type, textalign and obscuretext to respective fields on login_screen
+8.6 add registration logic to registration screen
+    8.6(a) import firebase_auth package
+    8.6(b) create new authentication instance inside state class
+    8.6(c) in onTapped() of Registration Button, create new User in Firebase (returns Future)
+8.7 in chat_screen:
+    8.7(a) import auth package
+    8.7(b) create private auth instance
+    8.7(c) create method getCurrentUser()
+    8.7(d) create new FirebaseUser prop
+    8.7(e) assign user to FirebaseUser
+    8.7(f) wrap inside try/catch
+    8.7(g) in initState() trigger getCurrentUser method to ensure registered user
+
 
 
 
