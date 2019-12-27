@@ -121,3 +121,11 @@ Logout:
 10.4 when user presses on register button, setState() showSpinner to true => enable spinning
 10.5 once registered user is back - stop spinning by showSpinner to false
 10.6 (a-e) add spinner to login screen
+
+11. L-174: Saving Data into Cloud Firestore
+Task: store messages from chat screen in Firestore on pressed send button
+11.1 in chat_screen: import cloud_firestore
+11.2 add messageText prop
+11.3 set value of TextField to messageText
+11.4 create new instance of cloud_firestore (same way as auth)
+11.5 when SEND is clicked (onPressed()) -> send data to collection messages
