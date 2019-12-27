@@ -104,7 +104,7 @@ see OneNote
     8.7(f) wrap inside try/catch
     8.7(g) in initState() trigger getCurrentUser method to ensure registered user
 
-9. L-172 - Authenticating Users with FirebaseAuth (Handling Login Events)
+9. L-172: Authenticating Users with FirebaseAuth (Handling Login Events)
 Login:
 9.1 import firebase_auth
 9.2 add props for _auth (firebaseAuth.instance), email, pwd
@@ -114,4 +114,10 @@ Logout:
 9.5 in IconButton for X, onPressed() -> use _auth.signOut()
 9.6 use Navigator.pop() to go back to previous screen
 
-
+10. L-173: Showing a Spinner (Loading Indicator) while User Waits
+10.1 add modal_progress_hud package to pubspec.yaml & import into registration_screen
+10.2 add bool prop showSpinner
+10.3 wrap ModalProgressHUD around "body:" prop of Scaffold()
+10.4 when user presses on register button, setState() showSpinner to true => enable spinning
+10.5 once registered user is back - stop spinning by showSpinner to false
+10.6 (a-e) add spinner to login screen
