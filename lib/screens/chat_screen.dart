@@ -40,6 +40,28 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  /* 12.3
+  // 12.1 SELECT -> returns Future!
+  void getMessages() async {
+    // getDocuments is a pull version that returns a List
+    final messages = await _firestore.collection('messages').getDocuments(); // 12.1
+    for (var message in messages.documents) {
+      print(message.data);
+    }
+  }
+
+   */
+  // 12.4 method listens to messages from FireStore
+  void messagesStream() async {
+    await for (var snapshot in _firestore.collection('messages').snapshots()) {
+      // .snapshots returns Stream of QuerySnapshots
+      for (var message in snapshot.documents) {
+        // now loop through returned list
+        print(message.data);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                _auth.signOut(); // 9.5
-                Navigator.pop(context); // 9.6
+                messagesStream(); // 12.5
+                //getMessages(); // 12.2
+//                _auth.signOut(); // 9.5
+//                Navigator.pop(context); // 9.6
               }),
         ],
         title: Text('⚡️Chat'),

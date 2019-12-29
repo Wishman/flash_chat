@@ -122,10 +122,20 @@ Logout:
 10.5 once registered user is back - stop spinning by showSpinner to false
 10.6 (a-e) add spinner to login screen
 
-11. L-174: Saving Data into Cloud Firestore
+11. L-174: Saving Data into Cloud Firestore (INSERT)
 Task: store messages from chat screen in Firestore on pressed send button
 11.1 in chat_screen: import cloud_firestore
 11.2 add messageText prop
 11.3 set value of TextField to messageText
 11.4 create new instance of cloud_firestore (same way as auth)
 11.5 when SEND is clicked (onPressed()) -> send data to collection messages
+
+12. L-175: Listening for Data from firebase using Streams (SELECT)
+-- PULL Version
+12.1 create method getMesages that uses Firestore.getDocument() and loops through messages
+12.2 trigger getMessages() from signout button (demo purposes only!) - comment out _auth.signout() etc
+-- PUSH Version
+12.3 comment-out getMessages()
+12.4 create method - messagesStream() that subscribes to Firestore stream and returns list of messages
+12.5 replace getMessages() in X Button with messagesStream() call
+12.6 trigger re-run of messagesStream by adding entry within Firebase console
