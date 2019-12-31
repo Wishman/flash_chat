@@ -51,7 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
    */
-  // 12.4 method listens to messages from FireStore
+  // 12.4 method listens to messages from FireStore (Firestore QuerySnapshot)
   void messagesStream() async {
     await for (var snapshot in _firestore.collection('messages').snapshots()) {
       // .snapshots returns Stream of QuerySnapshots
@@ -85,6 +85,36 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            // 13.1
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(), // 13.1(a)
+              // ignore: missing_return
+              builder: (context, snapshot) {
+                // 13.1(b) first check if snapshot has data!
+                if (!snapshot.hasData) {
+                  // 13.2 if snapshot has no data -> show spinner:
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
+                } else {
+                  // 13.1(c)
+                  final messages = snapshot.data.documents; // needs <QuerySnapshot> above to access .documents
+                  List<Text> messageWidgets = []; // List of Text Widgets to be created
+                  // 13.1 (d) use FOR_LOOP to create TextWidgets:
+                  for (var message in messages) {
+                    final messageText = message.data['text']; // different from snapshot.data!!!
+                    final messageSender = message.data['sender'];
+                    final messageWidget = Text('$messageText from $messageSender'); // create new widget
+                    messageWidgets.add(messageWidget); // add new MessageWidget to List of Widgets
+                  }
+                  return Column(children: messageWidgets); // 13.1(e) return column with list of text widgets
+                }
+              }, // builder: logic what StreamBuilder should do when rebuilding |
+              // builder snapshot is not the same as Firebase QuerySnapshot above!!, it's a Flutter AsyncSnapshot,
+              // but contains QuerySnapshot!
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(

@@ -139,3 +139,13 @@ Task: store messages from chat screen in Firestore on pressed send button
 12.4 create method - messagesStream() that subscribes to Firestore stream and returns list of messages
 12.5 replace getMessages() in X Button with messagesStream() call
 12.6 trigger re-run of messagesStream by adding entry within Firebase console
+
+13. L-177: Turning Streams into Widgets Using the StreamBuilder
+Task: Get Data from Stream to Display inside a Column with List of Text Widgets as children (simple first step, for more sophisticated solution see L-178)
+13.1 add StreamBuilder that expects a QuerySnapshot to Main Column before Container() with TextField and SEND Button (MainAxisAlignment.spaceBetween will make second Container go to bottom when we add StreamBuilder)
+    13.1 (a) add Firestore stream as stream prop to StreamBuilder
+    13.1 (b) check if snapshot has Data
+    13.1 (c) if yes, assign the documents to a List (messages) and create another (empty) List of Text Widgets
+    13.1 (d) loop through all messages, separate sender and text, create one Text Widget per message and add to Widget List
+    13.1 (e) return Column with List of Text Widgets as children
+13.2 reverse logic of if(snapshot.hasData) to if(!snapshot.hasData) - meaning snapshot has no data and add a spinner
