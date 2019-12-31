@@ -143,9 +143,46 @@ Task: store messages from chat screen in Firestore on pressed send button
 13. L-177: Turning Streams into Widgets Using the StreamBuilder
 Task: Get Data from Stream to Display inside a Column with List of Text Widgets as children (simple first step, for more sophisticated solution see L-178)
 13.1 add StreamBuilder that expects a QuerySnapshot to Main Column before Container() with TextField and SEND Button (MainAxisAlignment.spaceBetween will make second Container go to bottom when we add StreamBuilder)
-    13.1 (a) add Firestore stream as stream prop to StreamBuilder
+    13.1 (a) add FireStore stream as stream prop to StreamBuilder
     13.1 (b) check if snapshot has Data
     13.1 (c) if yes, assign the documents to a List (messages) and create another (empty) List of Text Widgets
     13.1 (d) loop through all messages, separate sender and text, create one Text Widget per message and add to Widget List
     13.1 (e) return Column with List of Text Widgets as children
 13.2 reverse logic of if(snapshot.hasData) to if(!snapshot.hasData) - meaning snapshot has no data and add a spinner
+
+14. L-178: The Flutter ListView
+Task: improve styling of Chat app by adding ListView et. al.
+14.1 replace return Column with return ListView wrapped inside Expanded Widget to leave space for TextField etc.
+14.2 add padding to ListView
+14.3 replace Text Widget with stateless Custom Text Widget called MessageBubble
+    14.3(a) create class at the bottom
+    14.3(b) cut Text widget from final messageWidget and paste instead of Container
+    14.3(c) add props for messageText and messageSender
+    14.3(d) add constr
+    14.3(e) replace messageSender with sender and messageText with text
+14.4 instantiate obj from MessageBubble class in messageWidget
+14.5 refactor messageWidget to messageBubble and messageWidgets to messageBubbles
+14.6 replace List<Text> with List<MessageBubble>
+14.7 wrap Text widget in Material Widget to be able to specify e.g. bgcolor and shape
+    14.7(a) wrap
+    14.7(b) add bgColor to Material
+14.8 wrap Material into Padding with EdgeInsets.all(10)
+14.9 add TextStyle (fontSize: 15, color white)
+14.10 wrap Text in Padding(symmetric v 10, h 20)
+14.11 add 5.0 px elevation to Material
+14.12 add borderRadius of Material to make bubbles
+14.13 separate sender and text by wrapping Material in Column & add Text widget for sender & remove 'from $sender' in Material Text,
+14.14 add TextStyle to Text(sender) fontSize 12, Color.black54 (lighter black to take focus away)
+14.15 move bubbles to right side by CrossAxisAlignment.end in Column
+-- refactor:
+14.16 extract StreamBuilder:
+    14.16(a) create new stless Widget MessagesStream at bottom above MessageBubble
+    14.16(b) replace Container with cut&paste StreamBuilder
+    14.16(c) in place of StreamBuilder create instance of MessageStream
+    14.16(d) move final _firestore to global level to be accessible in MessageStream class
+14.17 clear text field when send is hit
+    14.17(a) create a TextEditingController messageTextController
+    14.17(b) in TextField add controller prop
+    14.17(c) onPressed of Send FlatButton, messageTextController.clear()
+
+
