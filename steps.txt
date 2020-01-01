@@ -204,4 +204,7 @@ Task 2: change Color and Alignment and make bubble into speech bubble of message
 15.6 change order of messages: last one at the bottom List.reversed -> documents.reversed
 15.7 tidy up - revert signout , comment out messageStream()
 
+16. L-180: Cloud Firestore Authorisation & Security Rules
+only changes in Firestore
 
+FINISHED!
