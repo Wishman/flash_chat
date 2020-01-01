@@ -185,4 +185,23 @@ Task: improve styling of Chat app by adding ListView et. al.
     14.17(b) in TextField add controller prop
     14.17(c) onPressed of Send FlatButton, messageTextController.clear()
 
+15. L-179: A Different UI for Different Senders
+Task 1: remove ScreenOverflow on different screen sizes
+15.1 in register_screen: wrap Hero Widget inside Flexible() Widget
+15.2 in login_screen: wrap Hero in Flexible() as well
+Task 2: change Color and Alignment and make bubble into speech bubble of messageBubbles dependent on sender
+15.3 in chat_screen: change border radius to .only (sets border radius for each corner)
+15.4 change appearance for messages from other users:
+    15.4(a) move loggedinUser out to global
+    15.4(b) in MessageStream class create var currentUser and set to loggedinUsers email
+    15.4(c) in MessageBubble class - create bool isMe (plus constr)
+    15.4(d) in MessageStream class - add isMe with check to instantiation of MessageBubble (14.4)
+    15.4(e) in MessageBubble class - change color to white
+    15.4(f) in MessageBubble class - change color of Text to black54 if user isMe == false
+    15.4(g) in MessageBubble class - change crossAxisAlignment based on isMe
+    15.4(h) in MessageBubble class - change bubble corner to topLeft if not isMe
+15.5 delete collection in Firebase! Make ListView scroll to bottom - reverse: true
+15.6 change order of messages: last one at the bottom List.reversed -> documents.reversed
+15.7 tidy up - revert signout , comment out messageStream()
+
 

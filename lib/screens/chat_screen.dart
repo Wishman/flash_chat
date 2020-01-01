@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart'; // 8.7(a)
 import 'package:cloud_firestore/cloud_firestore.dart'; // 11.1
 
 final _firestore = Firestore.instance; // 11.4 & 14.16(d)
+FirebaseUser loggedInUser; //8.7(d) & 15.4(d)
 
 class ChatScreen extends StatefulWidget {
   // 1.1
@@ -16,7 +17,6 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController(); // 14.17(a)
   final _auth = FirebaseAuth.instance; // 8.7(b)
-  FirebaseUser loggedInUser; //8.7(d)
 
   String messageText; // 11.2
 
@@ -53,6 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
    */
 
+  /* 15.7
   // 12.4 method listens to messages from FireStore (Firestore QuerySnapshot)
   void messagesStream() async {
     await for (var snapshot in _firestore.collection('messages').snapshots()) {
@@ -63,6 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     }
   }
+   */
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +75,11 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                messagesStream(); // 12.5
+                // 15.7
+                //messagesStream(); // 12.5
                 //getMessages(); // 12.2
-//                _auth.signOut(); // 9.5
-//                Navigator.pop(context); // 9.6
+                _auth.signOut(); // 9.5
+                Navigator.pop(context); // 9.6
               }),
         ],
         title: Text('⚡️Chat'),
@@ -145,17 +148,21 @@ class MessagesStream extends StatelessWidget {
             ),
           );
         } else {
-          // 13.1(c)
-          final messages = snapshot.data.documents; // needs <QuerySnapshot> above to access .documents
+          // 13.1(c) & 15.6
+          final messages = snapshot.data.documents.reversed; // needs <QuerySnapshot> above to access .documents
           List<MessageBubble> messageBubbles = []; // List of Text Widgets to be created & 14.6
           // 13.1 (d) use FOR_LOOP to create TextWidgets:
           for (var message in messages) {
             final messageText = message.data['text']; // different from snapshot.data!!!
             final messageSender = message.data['sender'];
+
+            final currentUser = loggedInUser.email; // 15.4(b)
+
             // // 14.4 create new widget - initially of Type Text, now of custom Type MessageBubble
             final messageBubble = MessageBubble(
               sender: messageSender,
               text: messageText,
+              isMe: currentUser == messageSender, // 15.4(d)
             );
             messageBubbles.add(messageBubble); // add new MessageWidget to List of Widgets
           }
@@ -164,6 +171,7 @@ class MessagesStream extends StatelessWidget {
           // 14.1
           return Expanded(
             child: ListView(
+              reverse: true, // 15.5 Listview now sticky towards bottom of view
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0), // 14.2
               children: messageBubbles,
             ),
@@ -181,8 +189,10 @@ class MessageBubble extends StatelessWidget {
   // 14.3(c)
   final String sender;
   final String text;
+  // 15.4(c)
+  final bool isMe;
 
-  MessageBubble({this.sender, this.text}); // 14.3(d)
+  MessageBubble({this.sender, this.text, this.isMe}); // 14.3(d) & 15.4(c)
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +201,7 @@ class MessageBubble extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       // 14.13
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end, // 14.15
+        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start, // 14.15 & 15.4(g)
         children: <Widget>[
           // 14.14
           Text(
@@ -203,12 +213,24 @@ class MessageBubble extends StatelessWidget {
           ),
           // 14.7(a)
           Material(
-            // 14.12
-            borderRadius: BorderRadius.circular(30.0),
+            // 14.12 - obsolete with 15.3
+            //borderRadius: BorderRadius.circular(30.0),
+            // 15.3 & 15.4(h)
+            borderRadius: isMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
             // 14.11
             elevation: 5.0,
-            //14.7(b)
-            color: Colors.lightBlueAccent,
+            //14.7(b) & 15.4(e)
+            color: isMe ? Colors.lightBlueAccent : Colors.white,
             // 14.10
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -217,7 +239,7 @@ class MessageBubble extends StatelessWidget {
                 text,
                 // 14.9
                 style: TextStyle(
-                  color: Colors.white,
+                  color: isMe ? Colors.white : Colors.black54, // 15.4(f)
                   fontSize: 15.0,
                 ),
               ),
